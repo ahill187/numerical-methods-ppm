@@ -49,7 +49,7 @@ def create_T_matrix(num_data_points, polynomial_degree, r_data):
 def main():
 
     polynomial_degree = 10
-    r_data = np.arange(0, 20, 0.05)
+    r_data = np.arange(0.001, 20, 0.05)
     num_data_points = len(r_data)
     hydrogen = Hydrogen()
     R_matrix = create_R_matrix(num_data_points, polynomial_degree, r_data)
