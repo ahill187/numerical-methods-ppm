@@ -19,14 +19,44 @@ class Hydrogen:
 
 
 def cost_function(u_pred, r_data, R_matrix, T_matrix, coefficients, hydrogen):
-    for i in range(0, len(u_pred)):
-        error = hydrogen.compute_radial_equation_error(r_data, R_matrix, T_matrix,
-            coefficients)
-        squared_difference = np.dot(error, error)
+    """Compute cost function.
+
+    The radial function for Hydrogen is a second order ODE, which can be set to zero by bringing
+    all the terms to one side. Our prediction for u(r) for each iteration can be substituted into
+    this equation, and should be close to zero. This is how we define our error.
+
+    Args:
+        u_pred: (np.array)
+        r_data: (np.array) a (1 x n) vector containing the input radial data
+        R_matrix: (np.array) an (n x m) matrix, see ``create_R_matrix``
+        T_matrix: (np.array) an (n x m) matrix, 2nd derivative, see ``create_T_matrix``
+        coefficients: (np.array) a (1 x m) vector containing the predicted coefficients
+        hydrogen: (Hydrogen) a Hydrogen object
+
+    """
+    error = hydrogen.compute_radial_equation_error(r_data, R_matrix, T_matrix, coefficients)
+    squared_difference = np.dot(error, error)
     return squared_difference/len(r_data)
 
 
 def create_R_matrix(num_data_points, polynomial_degree, r_data):
+    """Create a matrix of polynomials.
+
+        [
+            1, r_1, r_1^2, ... r_1^m
+
+            ...
+
+            1, r_n, r_n^2, ... r_n^m
+
+        ]
+
+    Args:
+        num_data_points: (int) number of data points to be used in the linear regression (n)
+        polynomial_degree: (int) maximum degree of the polynomial (m)
+        r_data: (np.array) a (1 x n) vector containing the input radial data
+
+    """
     R_matrix = np.ones((num_data_points, polynomial_degree))
     row = 0
     for r in r_data:
@@ -37,6 +67,23 @@ def create_R_matrix(num_data_points, polynomial_degree, r_data):
 
 
 def create_T_matrix(num_data_points, polynomial_degree, r_data):
+    """Create a matrix of second derivative of polynomials.
+
+        [
+            0, 0, 2, 6*r_1, 12*r_1^2... m*(m-1)*r_1^(m-2)
+
+            ...
+
+            0, 0, 2, 6*r_n, 12*r_n^2... m*(m-1)*r_n^(m-2)
+
+        ]
+
+    Args:
+        num_data_points: (int) number of data points to be used in the linear regression (n)
+        polynomial_degree: (int) maximum degree of the polynomial (m)
+        r_data: (np.array) a (1 x n) vector containing the input radial data
+
+    """
     T_matrix = np.ones((num_data_points, polynomial_degree))
     row = 0
     for r in r_data:
