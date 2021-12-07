@@ -1,8 +1,9 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Hydrogen:
-    def __init__(self, units="atomic", azimuthal_number=0, energy=1.0):
+    def __init__(self, units="atomic", azimuthal_number=0, energy=-1.0):
         self.units = units
         self.azimuthal_number = azimuthal_number  # quantum number l
         self.energy = energy  # ground state energy in atomic units
@@ -13,7 +14,7 @@ class Hydrogen:
         r_inverse_vector = np.array([1/r for r in r_data])
         r_inverse_squared_vector = np.array([1/r**2 for r in r_data])
         error = np.matmul(T_matrix, coefficients) - np.matmul(
-            (2*energy_vector + self.azimuthal_number*(self.azimuthal_number + 1)*r_inverse_squared_vector - r_inverse_vector),
+            (-1*energy_vector + self.azimuthal_number*(self.azimuthal_number + 1)*r_inverse_squared_vector - 2*r_inverse_vector),
             np.matmul(R_matrix, coefficients))
         return error
 
@@ -89,6 +90,8 @@ def create_T_matrix(num_data_points, polynomial_degree, r_data):
     for r in r_data:
         for n in range(2, polynomial_degree):
             T_matrix[row][n] = n*(n-1)*r**(n-2)
+        T_matrix[row][0]=0.0
+        T_matrix[row][1]=0.0
         row = row + 1
     return T_matrix
 
@@ -104,7 +107,9 @@ def main():
     coefficients = np.ones(polynomial_degree)
     u_pred = np.matmul(R_matrix, coefficients)
     cost = cost_function(u_pred, r_data, R_matrix, T_matrix, coefficients, hydrogen)
-
+    print (cost)
+    plt.plot(r_data,u_pred)
+    plt.show()
 
 if __name__ == "__main__":
     main()
