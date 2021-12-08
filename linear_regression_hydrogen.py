@@ -1,10 +1,9 @@
 
 import numpy as np
-import math
 
 
 class Hydrogen:
-    def __init__(self, units="atomic", principal_number=1,azimuthal_number=0, energy=-1.0):
+    def __init__(self, units="atomic", principal_number=1, azimuthal_number=0, energy=-1.0):
         self.units = units
         self.azimuthal_number = azimuthal_number  # quantum number l
         self.energy = energy  # ground state energy in atomic units
@@ -140,8 +139,5 @@ def gradient_descent(coefficients, alpha, max_cost, max_iterations, cost_functio
 #                                     ,hydrogen)
 
 
-
-
-#
 # if __name__ == "__main__":
 #     main()
