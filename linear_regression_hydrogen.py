@@ -7,7 +7,8 @@ class Hydrogen:
     def __init__(self, units="atomic", principal_number=1,azimuthal_number=0, energy=-1.0):
         self.units = units
         self.azimuthal_number = azimuthal_number  # quantum number l
-        self.energy = energy  # ground state energy in atomic units
+        self.principal_number = principal_number
+        self.energy = energy/(self.principal_number**2)  # energy in atomic units
 
     def compute_radial_equation_error(self, r_data, R_matrix, T_matrix, coefficients):
         error = np.matmul(T_matrix, coefficients) - self.g_radial_equation(r_data) * np.matmul(R_matrix, coefficients)
