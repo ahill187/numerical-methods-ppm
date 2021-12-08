@@ -18,7 +18,7 @@ class Hydrogen:
         energy_vector = np.full(num_data_points, self.energy)
         r_inverse_vector = np.array([1 / r for r in r_data])
         r_inverse_squared_vector = np.array([1 / r**2 for r in r_data])
-        return (-2 * energy_vector + self.azimuthal_number * (self.azimuthal_number + 1) * r_inverse_squared_vector - r_inverse_vector)
+        return (-2 * energy_vector + self.azimuthal_number * (self.azimuthal_number + 1) * r_inverse_squared_vector - 2 * r_inverse_vector)
 
 
 def cost_function(coefficients, u_pred, r_data, R_matrix, T_matrix, hydrogen):
