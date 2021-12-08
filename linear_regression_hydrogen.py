@@ -4,7 +4,7 @@ import math
 
 
 class Hydrogen:
-    def __init__(self, units="atomic", azimuthal_number=0, energy=-1.0):
+    def __init__(self, units="atomic", principal_number=1,azimuthal_number=0, energy=-1.0):
         self.units = units
         self.azimuthal_number = azimuthal_number  # quantum number l
         self.energy = energy  # ground state energy in atomic units
@@ -123,21 +123,21 @@ def gradient_descent(coefficients, alpha, max_cost, max_iterations, cost_functio
     return coefficients, cost
 
 
-def main():
+# def main():
 
-    polynomial_degree = 10
-    r_data = np.arange(0.001, 20, 0.05)
-    num_data_points = len(r_data)
-    hydrogen = Hydrogen()
-    R_matrix = create_R_matrix(num_data_points, polynomial_degree, r_data)
-    T_matrix = create_T_matrix(num_data_points, polynomial_degree, r_data)
-    coefficients = np.ones(polynomial_degree)
-    for n in range(0, polynomial_degree):
-        coefficients[n] = (-1)**n * (1 / math.factorial(n)) * 1 / np.sqrt(np.pi)
-    u_pred = np.matmul(R_matrix, coefficients)
-    coefficients, cost = gradient_descent(coefficients, alpha, max_cost, max_iterations, cost_function,
-                                    cost_function_deriv, u_pred, r_data, R_matrix, T_matrix,
-                                    coefficients, hydrogen)
+#     polynomial_degree = 10
+#     r_data = np.arange(0.001, 20, 0.05)
+#     num_data_points = len(r_data)
+#     hydrogen = Hydrogen()
+#     R_matrix = create_R_matrix(num_data_points, polynomial_degree, r_data)
+#     T_matrix = create_T_matrix(num_data_points, polynomial_degree, r_data)
+#     coefficients = np.ones(polynomial_degree)
+#     for n in range(0, polynomial_degree):
+#         coefficients[n] = (-1)**n * (1 / math.factorial(n)) * 1 / np.sqrt(np.pi)
+#     u_pred = np.matmul(R_matrix, coefficients)
+#     coefficients, cost = gradient_descent(coefficients, alpha, max_cost, max_iterations, cost_function,
+#                                     cost_function_deriv, u_pred, r_data, R_matrix, T_matrix,
+#                                     ,hydrogen)
 
 
 
