@@ -2,13 +2,16 @@
 import numpy as np
 
 
-def cost_function_deriv(coefficients, r_data, hydrogen):
+def cost_function_deriv(coefficients, r_data, hydrogen, include_theta_0=True):
     T_vector = get_T_vector(r_data, coefficients)
     R_vector = get_R_vector(r_data, coefficients)
     error = hydrogen.compute_radial_equation_error(r_data, coefficients, R_vector, T_vector)
     num_data_points = np.shape(r_data)[0]
     J_deriv = np.zeros(3)
-    J_deriv[0] = 2 / coefficients[0] * np.dot(error, error)
+    if include_theta_0:
+        J_deriv[0] = 2 / coefficients[0] * np.dot(error, error)
+    else:
+        J_deriv[0] = 0
     J_deriv[1] = 2 / coefficients[2] * np.dot(error, error)
     g = hydrogen.g_radial_equation(r_data)
     for m in range(0, num_data_points):
