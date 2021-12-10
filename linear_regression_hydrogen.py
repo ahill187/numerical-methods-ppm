@@ -16,6 +16,7 @@ def cost_function_deriv(coefficients, r_data, hydrogen, u_pred, R_matrix, T_matr
         J_deriv_k = 2 / num_data_points * np.dot(error, np.matmul(T_matrix, identity) - \
                     np.matmul(T_matrix, identity) * g_vector)
         J_deriv.append(J_deriv_k)
+    #print(np.amin(J_deriv))
     return np.array(J_deriv)
 
 
